@@ -5,7 +5,7 @@
           <img class="logo-main" src="../static/bicycle-blue.png"/>
         </a>
       </div>
-      <div class="main-wrapper">
+      <div @class="main-wrapper">
         <div class="d-flex justify-center align-center fadeInDown mt-2">
           <p class="mb-8">Customize your card</p>
         </div>

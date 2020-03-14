@@ -1,19 +1,16 @@
 <template>
   <div class="main d-flex justify-center align-center">
-    <div v-if="displayLoader" class="loader fadeIn">
-      <v-progress-circular :value="progress" color="white" :size="70" :width="4"></v-progress-circular>
-    </div>
-    <div v-if="displayContent" :class="{ rippleIn: isRipplingIn, expanded: ripplingDone }" class="content">
+    <div class="content">
       <div>
         <a href="https://bicyclecards.com/">
           <img class="logo-main fadeInLeft" src="../static/bicycle-blue.png"/>
         </a>
       </div>
       <div class="main-wrapper">
-        <div class="d-flex flex-column justify-center align-center fadeInDown2 mt-4">
+        <div class="d-flex flex-column justify-center align-center fadeInDown mt-4">
           <p>Choose a face for your card.</p>
         </div>
-        <div v-if="ripplingDone" class="fadeInCanvas p5-wrapper">
+        <div class="fadeInCanvas p5-wrapper">
           <div @click="goTo('triangle')">
             <canvas-p5-triangle class="cursor-pointer"></canvas-p5-triangle>
           </div>
@@ -64,24 +61,6 @@ export default {
     isRipplingIn: false,
     ripplingDone: false,
   }),
-  mounted(){
-    this.interval = setInterval(() => {
-        if (this.progress != 100) {
-          this.progress += 5
-        }else {
-          clearInterval(this.interval)
-           setTimeout( () => {
-             this.displayLoader = false
-             this.displayContent = true
-             this.isRipplingIn = true
-           }, 400);
-           setTimeout( () => {
-             this.ripplingDone = true
-           }, 1200);
-        }
-      }, 100)
-
-  },
   methods: {
     goTo(target) {
       this.$router.push({
@@ -104,9 +83,8 @@ export default {
 }
 .content{
   background-color:#fcfcfc;
-  width:70px;
-  height:70px;
-  border-radius: 100%;
+  height:100%;
+  width:100%;
 }
 .content.expanded{
   width:100%;

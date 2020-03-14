@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     setup(sketch) {
-      console.log('i was setup')
       sketch.createCanvas(250, 350)
       sketch.stroke(this.strokeColor);
       sketch.strokeWeight(1.5);

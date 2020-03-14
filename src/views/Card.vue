@@ -164,9 +164,7 @@ export default {
   }),
   computed: {
     pickedValueLabel(){
-      console.log(this.pickedValue)
       let r = this.cardValues.find(element => element.value === this.pickedValue)
-      console.log(r)
       return r.text
     }
   }

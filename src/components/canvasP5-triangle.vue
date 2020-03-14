@@ -108,7 +108,6 @@ export default {
   watch: {
     valuechange: function() {
       this.c=1
-      console.log('changed')
     }
   }
 };

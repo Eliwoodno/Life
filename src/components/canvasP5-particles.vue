@@ -64,7 +64,6 @@ export default {
   },
   methods: {
     setup(sketch) {
-      console.log('memes')
       sketch.createCanvas(250, 350);
       for(let i = 0; i < this.nvalue; i++){
         let pv = sketch.createVector(sketch.width/2, sketch.height/2)

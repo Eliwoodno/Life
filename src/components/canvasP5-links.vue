@@ -69,7 +69,6 @@ export default {
   methods: {
     setup(sketch) {
       sketch.createCanvas(250, 350)
-      sketch.stroke(this.strokeColor);
       sketch.strokeWeight(1.5);
       sketch.noFill();
       for (let i = 0; i < (2 + this.N*this.nCircles*(this.nCircles-1)/2); i++) {
@@ -78,6 +77,7 @@ export default {
       }
     },
     draw(sketch) {
+      sketch.stroke(this.strokeColor);
       if(this.c == 1){
         this.setup(sketch)
         this.c=0

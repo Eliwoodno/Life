@@ -45,7 +45,6 @@
               :color-string.sync="strokeColor"
                title="Stroke color"
                default-color="#000000FF"
-               @colorchanged="valuechange++"
             ></color-picker>
           </div>
           <div class="card" v-if="$route.params.title=='triangle'">

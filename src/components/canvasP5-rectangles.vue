@@ -60,10 +60,10 @@ export default {
     setup(sketch) {
       sketch.createCanvas(250, 350)
       sketch.noFill();
-      sketch.stroke(this.strokeColor);
       sketch.rectMode(sketch.CENTER);
     },
     draw(sketch) {
+      sketch.stroke(this.strokeColor);
       if(this.c == 1){
         this.setup(sketch)
         this.c=0

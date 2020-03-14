@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div class="card-wrapper">
+    <div class="upper-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number">{{ valueLabel }}</div>
+      <div class="suit"> {{ suit }}</div>
+    </div>
+    <div class="lower-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number"> {{ valueLabel }}</div>
+      <div class="suit">{{ suit }}</div>
+    </div>
     <vue-p5
         @setup="setup"
         @draw="draw"
@@ -20,13 +28,34 @@ export default {
       type: String,
       default:'#FCFCFCFF'
     },
+    strokeColor: {
+      type: String,
+      default:'#000000FF'
+    },
     value: {
       type: Number,
       default:10
     },
+    valueLabel: {
+      type: String,
+      default:''
+    },
+    valuechange: {
+      type: Number,
+      default:0
+    },
+    suit: {
+      type: String,
+      default:''
+    },
+    suitColor: {
+      type: String,
+      default:'#000000FF'
+    },
   },
   data: () => ({
-    particles: []
+    particles: [],
+    c:0,
   }),
   computed: {
      nvalue() {
@@ -35,8 +64,9 @@ export default {
   },
   methods: {
     setup(sketch) {
+      console.log('memes')
       sketch.createCanvas(250, 350);
-      for(let i = 1; i < this.nvalue; i++){
+      for(let i = 0; i < this.nvalue; i++){
         let pv = sketch.createVector(sketch.width/2, sketch.height/2)
         this.particles.push({
           loc:pv,
@@ -48,22 +78,28 @@ export default {
         }
     },
     draw(sketch) {
+      if(this.c == 1){
+        this.particles = []
+        this.setup(sketch)
+        this.c=0
+      }else{
       sketch.background(this.bgColor);
       for(let i = 0; i < this.particles.length; i++){
         let sw = this.particles[i].os.x*this.particles[i].lineSize;
         let sh = this.particles[i].os.y*this.particles[i].lineSize;
         let s = sketch.createVector(sw+sketch.sin(sketch.radians(sketch.frameCount+this.particles[i].r))*sw/2, sh+sketch.sin(sketch.radians(sketch.frameCount+this.particles[i].r))*sh/2);
-        sketch.stroke(0);
+        sketch.stroke(this.strokeColor);
         sketch.strokeWeight(this.particles[i].size/7);
         sketch.line(this.particles[i].loc.x, this.particles[i].loc.y, this.particles[i].loc.x+s.x, this.particles[i].loc.y+s.y);
         sketch.ellipse(this.particles[i].loc.x+s.x, this.particles[i].loc.y+s.y, this.particles[i].size, this.particles[i].size);
       }
+      }
     },
   },
-   watch: {
-    nvalue: function () {
-      this.$emit('setup')
-    },
-   }
+    watch: {
+    valuechange: function() {
+      this.c=1
+    }
+  }
 };
 </script>

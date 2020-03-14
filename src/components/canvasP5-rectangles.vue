@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div class="card-wrapper">
+    <div class="upper-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number">{{ valueLabel }}</div>
+      <div class="suit"> {{ suit }}</div>
+    </div>
+    <div class="lower-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number"> {{ valueLabel }}</div>
+      <div class="suit">{{ suit }}</div>
+    </div>
     <vue-p5
         @setup="setup"
         @draw="draw"
@@ -24,17 +32,42 @@ export default {
       type: Number,
       default:10
     },
+    valuechange: {
+      type: Number,
+      default:0
+    },
+    valueLabel: {
+      type: String,
+      default:''
+    },
+    strokeColor: {
+      type: String,
+      default:'#000000FF'
+    },
+    suit: {
+      type: String,
+      default:''
+    },
+    suitColor: {
+      type: String,
+      default:'#000000FF'
+    },
   },
   data: () => ({
+    c:0
   }),
   methods: {
     setup(sketch) {
       sketch.createCanvas(250, 350)
       sketch.noFill();
-      sketch.stroke(0);
+      sketch.stroke(this.strokeColor);
       sketch.rectMode(sketch.CENTER);
     },
     draw(sketch) {
+      if(this.c == 1){
+        this.setup(sketch)
+        this.c=0
+      }else{
       sketch.background(this.bgColor);
       sketch.translate(sketch.width/2, sketch.height/2);
       for (let i = 0; i <= this.value; i++) {
@@ -49,7 +82,14 @@ export default {
         sketch.rect(0, 0, i*15, i*15);
         sketch.pop();
       }
+      }
     },
+
+  },
+  watch: {
+    valuechange: function() {
+      this.c=1
+    }
   }
 };
 </script>

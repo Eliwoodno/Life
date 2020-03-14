@@ -1,6 +1,14 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 <template>
-  <div>
+  <div class="card-wrapper">
+    <div class="upper-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number">{{ valueLabel }}</div>
+      <div class="suit"> {{ suit }}</div>
+    </div>
+    <div class="lower-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number"> {{ valueLabel }}</div>
+      <div class="suit">{{ suit }}</div>
+    </div>
     <vue-p5
         @setup="setup"
         @draw="draw"
@@ -25,6 +33,26 @@ export default {
       type: Number,
       default:10
     },
+    valuechange: {
+      type: Number,
+      default:0
+    },
+    valueLabel: {
+      type: String,
+      default:''
+    },
+    strokeColor: {
+      type: String,
+      default:'#000000FF'
+    },
+    suit: {
+      type: String,
+      default:''
+    },
+    suitColor: {
+      type: String,
+      default:'#000000FF'
+    },
   },
   data: () => ({
     bgColor:252,
@@ -33,6 +61,7 @@ export default {
     radius: 10,
     inter: 0,
     maxNoise: 150,
+    c:0,
   }),
   methods: {
     setup(sketch) {
@@ -45,11 +74,15 @@ export default {
       sketch.strokeWeight(1);
     },
     draw(sketch) {
+      if(this.c == 1){
+        this.setup(sketch)
+        this.c=0
+      }else{
       sketch.background(this.bgColor);
       let t = sketch.frameCount/100;
       this.kMax = sketch.noise(t/2);
       for (let i = 0; i < this.value; i++) {
-        sketch.stroke(6);
+        sketch.stroke(this.strokeColor);
         sketch.strokeWeight(sketch.noise(t + i/this.value)*2 +0.5);
         let size = this.radius + i * this.inter;
         let k = this.kMax * sketch.sqrt(i/this.value);
@@ -67,7 +100,13 @@ export default {
           }
         sketch.endShape(sketch.CLOSE);
       }
+      }
     },
+  },
+  watch: {
+    valuechange: function() {
+      this.c=1
+    }
   }
 };
 </script>

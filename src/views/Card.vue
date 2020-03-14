@@ -12,52 +12,106 @@
         <div class="d-flex justify-center fadeIn flex-wrap">
           <div class="suit-control">
             <v-select
+              class="inputs-card no-bs mb-4"
               v-model="pickedValue"
               :items="cardValues"
               label="Value"
+              @input="valuechange++"
                solo
+               hide-details
             ></v-select>
             <v-select
+               class="inputs-card no-bs mb-4"
               :items="suits"
               label="Suit"
+              v-model="pickedSuit"
                solo
+
             ></v-select>
             <color-picker
-              class="mb-3"
+              class="inputs-card mb-4"
               :color-string.sync="suitColor"
                title="Suit color"
                default-color="#000000FF"
             ></color-picker>
             <color-picker
-              class="mb-3"
+              class="inputs-card mb-4"
               :color-string.sync="bgColor"
                title="Background color"
                default-color="#FFFFFFFF"
             ></color-picker>
             <color-picker
-              class="mb-3"
+              class="inputs-card mb-4"
               :color-string.sync="strokeColor"
                title="Stroke color"
                default-color="#000000FF"
+               @colorchanged="valuechange++"
             ></color-picker>
           </div>
           <div class="card" v-if="$route.params.title=='triangle'">
-            <canvas-p5-triangle :value="pickedValue" :bg-color="bgColor"></canvas-p5-triangle>
+            <canvas-p5-triangle
+            :value="pickedValue"
+            :bg-color="bgColor"
+            :stroke-color="strokeColor"
+            :suit-color="suitColor"
+            :value-label="pickedValueLabel"
+            :suit="pickedSuit"
+            :valuechange="valuechange">
+            </canvas-p5-triangle>
           </div>
           <div class="card" v-if="$route.params.title=='wormhole'">
-            <canvas-p5-wormhole :value="pickedValue" :bg-color="bgColor"></canvas-p5-wormhole>
+            <canvas-p5-wormhole
+            :value="pickedValue"
+            :bg-color="bgColor"
+            :stroke-color="strokeColor"
+            :suit-color="suitColor"
+            :value-label="pickedValueLabel"
+            :suit="pickedSuit"
+            :valuechange="valuechange">
+            </canvas-p5-wormhole>
           </div>
           <div class="card" v-if="$route.params.title=='particles'">
-            <canvas-p5-particles :value="pickedValue" :bg-color="bgColor"></canvas-p5-particles>
+            <canvas-p5-particles
+            :value="pickedValue"
+            :bg-color="bgColor"
+            :stroke-color="strokeColor"
+            :suit-color="suitColor"
+            :value-label="pickedValueLabel"
+            :suit="pickedSuit"
+            :valuechange="valuechange">
+            </canvas-p5-particles>
           </div>
           <div class="card" v-if="$route.params.title=='tentacles'">
-            <canvas-p5-tentacles :value="pickedValue" :bg-color="bgColor"></canvas-p5-tentacles>
+            <canvas-p5-tentacles
+            :value="pickedValue"
+            :bg-color="bgColor"
+            :stroke-color="strokeColor"
+            :suit-color="suitColor"
+            :value-label="pickedValueLabel"
+            :suit="pickedSuit"
+            :valuechange="valuechange">
+            </canvas-p5-tentacles>
           </div>
           <div class="card" v-if="$route.params.title=='links'">
-            <canvas-p5-links :value="pickedValue" :bg-color="bgColor"></canvas-p5-links>
+            <canvas-p5-links
+            :value="pickedValue"
+            :bg-color="bgColor"
+            :stroke-color="strokeColor"
+            :suit-color="suitColor"
+            :value-label="pickedValueLabel"
+            :suit="pickedSuit"
+            :valuechange="valuechange">
+            </canvas-p5-links>
           </div>
           <div class="card" v-if="$route.params.title=='rectangles'">
-            <canvas-p5-rectangles :value="pickedValue" :bg-color="bgColor"></canvas-p5-rectangles>
+            <canvas-p5-rectangles
+            :value="pickedValue"
+            :bg-color="bgColor"
+            :stroke-color="strokeColor"
+            :suit-color="suitColor"
+            :value-label="pickedValueLabel"
+            :suit="pickedSuit"
+            :valuechange="valuechange"></canvas-p5-rectangles>
           </div>
           <div class="color-control">
           </div>
@@ -100,12 +154,22 @@ export default {
       {text:'Q', value:12},
       {text:'K', value:13},
       ],
-      suits:["♢", "♣", "♡", "♠"],
+      suits:["♦", "♣", "♥", "♠"],
       suitColor:'#000000FF',
       bgColor:'#FFFFFFFF',
       strokeColor:'#000000FF',
-      pickedValue:10,
+      pickedValue:7,
+      pickedSuit:'♣',
+      valuechange:0
   }),
+  computed: {
+    pickedValueLabel(){
+      console.log(this.pickedValue)
+      let r = this.cardValues.find(element => element.value === this.pickedValue)
+      console.log(r)
+      return r.text
+    }
+  }
 }
 </script>
 <style scoped lang="scss">
@@ -128,7 +192,7 @@ p {
 }
 .card{
   box-shadow: 0 0 18px #ccc;
-  border-radius:25px;
+  border-radius:15px;
   overflow: hidden;
   margin-right:32px;
   margin-left: 32px;
@@ -148,10 +212,14 @@ p {
   max-width: 200px;
   padding-top:8px;
 }
-.mb-3{
+.inputs-card{
   padding-right: 12px;
   height:48px;
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   border-radius:4px;
 }
+.no-bs{
+  box-shadow: unset;
+}
+
 </style>

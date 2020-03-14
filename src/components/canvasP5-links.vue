@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div class="card-wrapper">
+    <div class="upper-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number">{{ valueLabel }}</div>
+      <div class="suit"> {{ suit }}</div>
+    </div>
+    <div class="lower-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number"> {{ valueLabel }}</div>
+      <div class="suit">{{ suit }}</div>
+    </div>
     <vue-p5
         @setup="setup"
         @draw="draw"
@@ -24,6 +32,26 @@ export default {
       type: Number,
       default:10
     },
+    valuechange: {
+      type: Number,
+      default:0
+    },
+    valueLabel: {
+      type: String,
+      default:''
+    },
+    strokeColor: {
+      type: String,
+      default:'#000000FF'
+    },
+    suit: {
+      type: String,
+      default:''
+    },
+    suitColor: {
+      type: String,
+      default:'#000000FF'
+    },
   },
   data: () => ({
     radius:18,
@@ -31,6 +59,7 @@ export default {
     count:0,
     arcLengths: [],
     arcSpeeds: [],
+    c:0
   }),
   computed: {
      nCircles() {
@@ -39,8 +68,9 @@ export default {
   },
   methods: {
     setup(sketch) {
+      console.log('i was setup')
       sketch.createCanvas(250, 350)
-      sketch.stroke(0);
+      sketch.stroke(this.strokeColor);
       sketch.strokeWeight(1.5);
       sketch.noFill();
       for (let i = 0; i < (2 + this.N*this.nCircles*(this.nCircles-1)/2); i++) {
@@ -49,6 +79,10 @@ export default {
       }
     },
     draw(sketch) {
+      if(this.c == 1){
+        this.setup(sketch)
+        this.c=0
+      }else{
       sketch.background(this.bgColor);
       this.count = 1;
       sketch.translate(sketch.width/2, sketch.height/2);
@@ -76,9 +110,16 @@ export default {
            }
         }
       }
+      }
     },
+  },
+  watch: {
+    valuechange: function() {
+      this.c=1
+    }
   }
 };
+
+
 </script>
 
->

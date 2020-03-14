@@ -52,6 +52,7 @@ export default {
   methods: {
     onInput() {
       this.$emit('update:colorString', this.color)
+      this.$emit('colorchanged')
     },
     },
 }

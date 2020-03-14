@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div class="card-wrapper">
+    <div class="upper-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number">{{ valueLabel }}</div>
+      <div class="suit"> {{ suit }}</div>
+    </div>
+    <div class="lower-suit" :style="{ 'color': suitColor }">
+      <div class="suit-number"> {{ valueLabel }}</div>
+      <div class="suit">{{ suit }}</div>
+    </div>
     <vue-p5
         @setup="setup"
         @draw="draw"
@@ -24,9 +32,30 @@ export default {
       type: Number,
       default:10
     },
+    valueLabel: {
+      type: String,
+      default:''
+    },
+    valuechange: {
+      type: Number,
+      default:0
+    },
+    strokeColor: {
+      type: String,
+      default:'#000000FF'
+    },
+    suit: {
+      type: String,
+      default:''
+    },
+    suitColor: {
+      type: String,
+      default:'#000000FF'
+    },
   },
   data: () => ({
-    incrementValue:undefined
+    incrementValue:undefined,
+    c:0,
   }),
   methods: {
     setup(sketch) {
@@ -34,6 +63,10 @@ export default {
       //sketch.noLoop()
     },
     draw(sketch) {
+      if(this.c == 1){
+        this.setup(sketch)
+        this.c=0
+      }else{
       const harom = (ax, ay, bx, by, level, ratio) => {
         if(level!=0){
           let vx,vy,nx,ny,cx,cy;
@@ -43,6 +76,7 @@ export default {
           ny=Math.sin(Math.PI/3)*vx+Math.cos(Math.PI/3)*vy;
           cx=ax+nx;
           cy=ay+ny;
+          sketch.stroke(this.strokeColor);
           sketch.line(ax,ay,bx,by);
           sketch.line(ax,ay,cx,cy);
           sketch.line(cx,cy,bx,by);
@@ -51,6 +85,7 @@ export default {
       }
       sketch.background(this.bgColor);
       harom(230,255,20,255,this.value,(sketch.sin(0.0006*sketch.millis()%(2*sketch.PI))+1)/2);
+      }
     },
    /* overpara() {
     this.bgColor = 200;
@@ -69,6 +104,12 @@ export default {
       this.incrementValue = undefined;
       this.nTriangles = 7
     }*/
+  },
+  watch: {
+    valuechange: function() {
+      this.c=1
+      console.log('changed')
+    }
   }
 };
 </script>

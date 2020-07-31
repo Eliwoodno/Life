@@ -2,3 +2,11 @@
 @import 'animations.scss';
 @import 'cards.scss';
 
+$font-color: rgb(226, 19, 19);
+$bg-color: rgb(70, 70, 119);
+
+
+body{
+  color: $font-color !important;
+  background: $bg-color;
+}
